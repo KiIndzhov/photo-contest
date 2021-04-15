@@ -1,0 +1,111 @@
+create table CREDENTIALS
+(
+	ID INT auto_increment,
+	USERNAME VARCHAR(20) not null,
+	PASSWORD VARCHAR(100) not null,
+	ROLE INT not null,
+	constraint CREDENTIALS_PK
+		primary key (ID)
+);
+
+create table USER
+(
+	ID INT auto_increment,
+	FIRST_NAME VARCHAR(20) not null,
+	LAST_NAME VARCHAR(20) not null,
+	CREDENTIALS_ID INT not null,
+	SCORE INT,
+	constraint USER_PK
+		primary key (ID),
+	constraint USER_CREDENTIALS_ID_FK
+		foreign key (CREDENTIALS_ID) references CREDENTIALS (ID)
+);
+
+create unique index USER_CREDENTIALS_UINDEX
+	on USER (CREDENTIALS_ID);
+
+create unique index CREDENTIALS_USERNAME_UINDEX
+	on CREDENTIALS (USERNAME);
+
+create table CONTEST_CATEGORIES
+(
+	ID INT auto_increment,
+	CATEGORY VARCHAR(50) not null,
+	constraint CONTEST_CATEGORIES_PK
+		primary key (ID)
+);
+
+create table CONTESTS
+(
+	ID INT auto_increment,
+	TITLE VARCHAR(50),
+	CATEGORY_ID INT,
+	TIME_LIMIT_PHASE_1 DATE not null,
+	TIME_LIMIT_PHASE_2 DATETIME not null,
+	COVER_PHOTO TEXT not null,
+	IS_OPEN BOOLEAN default 1 not null,
+	FINISHED BOOLEAN default 0 not null,
+	constraint CONTESTS_PK
+		primary key (ID),
+	constraint CONTESTS_CONTEST_CATEGORIES_ID_FK
+		foreign key (CATEGORY_ID) references CONTEST_CATEGORIES (ID)
+);
+
+create table PHOTOS
+(
+	ID INT auto_increment,
+	FILE_PATH TEXT,
+	USER_ID INT not null,
+	CONTEST_ID INT not null,
+	STORY TEXT,
+	TITLE VARCHAR(50) not null,
+	constraint PHOTOS_PK
+		primary key (ID),
+	constraint PHOTOS_CONTESTS_ID_FK
+		foreign key (CONTEST_ID) references CONTESTS (ID),
+	constraint PHOTOS_USER_ID_FK
+		foreign key (USER_ID) references USER (ID)
+);
+
+create table REVIEWS
+(
+	ID INT auto_increment,
+	SCORE INT not null,
+	COMMENT TEXT,
+	JURY_ID INT not null,
+	PHOTO_ID INT not null,
+	EDITED BOOLEAN default 0,
+	constraint REVIEWS_PK
+		primary key (ID),
+	constraint REVIEWS_PHOTOS_ID_FK
+		foreign key (PHOTO_ID) references PHOTOS (ID),
+	constraint REVIEWS_USER_ID_FK
+		foreign key (JURY_ID) references USER (ID)
+);
+
+create table CONTESTS_JURIES
+(
+	ID INT auto_increment,
+	CONTEST_ID INT not null,
+	USER_ID INT not null,
+	constraint CONTESTS_JURIES_PK
+		primary key (ID),
+	constraint CONTESTS_JURIES_CONTESTS_ID_FK
+		foreign key (CONTEST_ID) references CONTESTS (ID),
+	constraint CONTESTS_JURIES_USER_ID_FK
+		foreign key (USER_ID) references USER (ID)
+);
+
+create table CONTESTS_PARTICIPANTS
+(
+	ID INT auto_increment,
+	USER_ID INT not null,
+	CONTEST_ID INT not null,
+	constraint CONTESTS_PARTICIPANTS_PK
+		primary key (ID),
+	constraint CONTESTS_PARTICIPANTS_CONTESTS_ID_FK
+		foreign key (CONTEST_ID) references CONTESTS (ID),
+	constraint CONTESTS_PARTICIPANTS_USER_ID_FK
+		foreign key (USER_ID) references USER (ID)
+);
+
