@@ -89,7 +89,7 @@ public class HomeController {
 
     @GetMapping("/logoutPage")
     public String showLogout(HttpSession session) {
-        return "/logoutPage";
+        return "/exitPage";
     }
 
  }
