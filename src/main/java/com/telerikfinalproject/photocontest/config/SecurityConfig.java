@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/junkie", "/**/junkie/**","/**/enroll/**").hasRole("PHOTO_JUNKIE")
                 .antMatchers("/organiser", "/**/organiser/**").hasRole("ORGANIZER")
-                .antMatchers("/contest/**","/photo/**", "/profile/**").authenticated()
+                .antMatchers("/contest/**","/photo/**", "/profile/**","/logoutPage").authenticated()
                 .antMatchers("/","**/h2-console/**").permitAll()
                 .and().formLogin().loginPage("/login").successHandler( authenticationSuccessHandler )
                 .and().exceptionHandling().accessDeniedPage("/")
