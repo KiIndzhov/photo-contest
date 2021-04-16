@@ -2,6 +2,7 @@ package com.telerikfinalproject.photocontest.services.mappers;
 
 import com.telerikfinalproject.photocontest.models.Credential;
 import com.telerikfinalproject.photocontest.models.User;
+import com.telerikfinalproject.photocontest.models.dtomodels.JuryDto;
 import com.telerikfinalproject.photocontest.models.dtomodels.UserDto;
 import com.telerikfinalproject.photocontest.models.dtomodels.UserOutputDto;
 import com.telerikfinalproject.photocontest.models.dtomodels.UserUpdateDto;
@@ -51,6 +52,16 @@ public class UserModelMapper {
         return userOutputDto;
 
     }
+
+    public JuryDto userToJuryDto(User user) {
+
+        JuryDto juryDto = new JuryDto();
+        juryDto.setName(user.getFirstName() + " " + user.getLastName());
+        juryDto.setScore(user.getScore());
+        juryDto.setUserID(user.getId());
+        return juryDto;
+    }
+
 
     public UserUpdateDto userToUpdateDto(User user) {
 

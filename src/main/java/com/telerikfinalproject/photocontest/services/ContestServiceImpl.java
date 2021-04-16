@@ -5,6 +5,7 @@ import com.telerikfinalproject.photocontest.exceptions.UnauthorisedException;
 import com.telerikfinalproject.photocontest.models.Contest;
 import com.telerikfinalproject.photocontest.models.Photo;
 import com.telerikfinalproject.photocontest.models.User;
+import com.telerikfinalproject.photocontest.models.dtomodels.ContestOutputDto;
 import com.telerikfinalproject.photocontest.repositories.contracts.ContestRepository;
 import com.telerikfinalproject.photocontest.services.contracts.ContestService;
 import com.telerikfinalproject.photocontest.services.contracts.ImageService;
@@ -12,10 +13,13 @@ import com.telerikfinalproject.photocontest.services.contracts.PhotoService;
 import com.telerikfinalproject.photocontest.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -144,6 +148,44 @@ public class ContestServiceImpl implements ContestService {
             photoService.updateJuryList(photo);
         }
         contestRepository.updateContest(contest);
+    }
+
+    @Override
+    public List<List<Photo>> getRankingContests(ContestOutputDto contest) {
+        List<Photo> firstPlace = new ArrayList<>();
+        List<Photo> secondPlace = new ArrayList<>();
+        List<Photo> thirdPlace = new ArrayList<>();
+        List<Photo> unranked = new ArrayList<>();
+        List<List<Photo>> contests = new ArrayList<>(Arrays.asList(firstPlace,secondPlace,thirdPlace,unranked));
+        for (Photo photo : contest.getPhotoList()) {
+            if(firstPlace.isEmpty()){
+                firstPlace.add(photo);
+                continue;
+            }
+            if(firstPlace.get(0).getPoints()==photo.getPoints()){
+                firstPlace.add(photo);
+                continue;
+            }
+            if(secondPlace.isEmpty()){
+                secondPlace.add(photo);
+                continue;
+            }
+            if(secondPlace.get(0).getPoints()==photo.getPoints()){
+                secondPlace.add(photo);
+                continue;
+            }
+            if(thirdPlace.isEmpty()){
+                thirdPlace.add(photo);
+                continue;
+            }
+            if(thirdPlace.get(0).getPoints()==photo.getPoints()){
+                thirdPlace.add(photo);
+                continue;
+            }
+            unranked.add(photo);
+        }
+
+        return contests;
     }
 
     private void updateJurySet(Contest contest, List<Integer> newJurySet) {

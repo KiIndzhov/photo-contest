@@ -68,7 +68,7 @@
 					</ul>
 				</li>
 				<li>
-					<a class="nav-link scrollto" href="exitPage.html" th:href="@{/logoutPage}">Logout</a>
+					<a class="nav-link scrollto" href="logoutPage.html" th:href="@{/logout}">Logout</a>
 				</li>
 			</ul>
 			<i class="bi bi-list mobile-nav-toggle"></i>
@@ -118,11 +118,11 @@
 							<h2>Photo information</h2>
 							<ul>
 								<li>
-									<h3 class="text-info" th:if="${contest.getPhotoList().size() > 0 and contest.getPhotoList().get(0).equals(photo)}"
+									<h3 class="text-info" th:if="${firstPLace.contains(photo)}"
 									    th:text="'Winning Picture'">Winning Photo</h3>
-									<h4 class="text-info" th:if="${contest.getPhotoList().size() > 1 and contest.getPhotoList().get(1).equals(photo)}"
+									<h4 class="text-info" th:if="${secondPLace.contains(photo)}"
 									    th:text="'Second Place'">Second Place</h4>
-									<h4 class="text-info" th:if="${contest.getPhotoList().size() > 2 and contest.getPhotoList().get(2).equals(photo)}"
+									<h4 class="text-info" th:if="${thirdPLace.contains(photo)}"
 									    th:text="'Third Place'">Third Place</h4>
 								<li>
 									<label th:text="Score">Totall Score</label>
@@ -143,6 +143,8 @@
 
 			</div>
 		</section><!-- End Portfolio Details Section -->
+
+	</th:block>
 
 	</th:block>
 

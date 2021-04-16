@@ -27,12 +27,13 @@ public class ContestController {
 
     private final ContestService contestService;
     private final ContestModelMapper contestModelMapper;
+    private final ScheduledService scheduledService;
 
     @Autowired
-    public ContestController(ContestService contestService, ContestModelMapper contestModelMapper) {
+    public ContestController(ContestService contestService, ContestModelMapper contestModelMapper, ScheduledService scheduledService) {
         this.contestService = contestService;
         this.contestModelMapper = contestModelMapper;
-
+        this.scheduledService = scheduledService;
     }
 
     @ApiOperation(value = CREATE_CONTEST , response = Contest.class)

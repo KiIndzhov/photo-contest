@@ -1,6 +1,8 @@
 package com.telerikfinalproject.photocontest.services.contracts;
 
 import com.telerikfinalproject.photocontest.models.Contest;
+import com.telerikfinalproject.photocontest.models.Photo;
+import com.telerikfinalproject.photocontest.models.dtomodels.ContestOutputDto;
 import org.springframework.core.io.Resource;
 
 import java.util.List;
@@ -28,4 +30,6 @@ public interface ContestService {
     List<Contest> getContestsInFirstPhase();
 
     void updateJuryAndParticipants(Contest contest, List<Integer> juryList, List<Integer> paricipantList);
+
+    List<List<Photo>> getRankingContests(ContestOutputDto contest);
 }

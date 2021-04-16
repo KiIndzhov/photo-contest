@@ -9,5 +9,4 @@ public interface ImageRepository {
 
     FileSystemResource getImage(String path);
 
-    String getImagePath(String fileName);
 }

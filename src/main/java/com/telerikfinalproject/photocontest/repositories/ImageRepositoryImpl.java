@@ -44,8 +44,4 @@ public class ImageRepositoryImpl implements ImageRepository {
         }
     }
 
-    @Override
-    public String getImagePath(String fileName) {
-        return fileName;
-    }
 }

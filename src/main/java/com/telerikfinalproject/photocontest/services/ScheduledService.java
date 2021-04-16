@@ -15,7 +15,7 @@ import java.util.List;
 
 import static com.telerikfinalproject.photocontest.services.utils.Constants.*;
 
-//@Service
+@Service
 @Transactional
 public class ScheduledService {
 

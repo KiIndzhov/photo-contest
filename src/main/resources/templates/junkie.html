@@ -59,7 +59,7 @@
                         <li><a href="#" th:href="@{/profile/update/{userId}(userId=${session.loggedUser.getId()})}">Edit profile</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="exitPage.html" th:href="@{/logoutPage}">Logout</a></li>
+                <li><a class="nav-link scrollto" href="logoutPage.html" th:href="@{/logout}">Logout</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
@@ -85,7 +85,7 @@
             <nav class="row">
                 <div class="col-lg-12 d-flex justify-content-center navbar">
                     <ul>
-                        <a href="exitPage.html" th:href="@{/junkie}">Available</a>
+                        <a href="logoutPage.html" th:href="@{/junkie}">Available</a>
                         <a th:href="@{/junkie/filter?filter=participant}">Participating</a>
                         <a th:href="@{/junkie/filter?filter=finished}">Finished</a>
                         <a th:if="${session.loggedUser.getScore() > 150}" th:href="@{/junkie/filter?filter=jury}">Judging</a>

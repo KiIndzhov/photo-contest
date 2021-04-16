@@ -7,6 +7,7 @@ import com.telerikfinalproject.photocontest.models.dtomodels.UserOutputDto;
 import com.telerikfinalproject.photocontest.services.contracts.ContestService;
 import com.telerikfinalproject.photocontest.services.contracts.PhotoService;
 import com.telerikfinalproject.photocontest.services.mappers.PhotoModelMapper;
+import com.telerikfinalproject.photocontest.services.mappers.ReviewModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/photo")
@@ -22,12 +24,14 @@ public class PhotoControllerMVC {
     private final ContestService contestService;
     private final PhotoService photoService;
     private final PhotoModelMapper photoModelMapper;
+    private final ReviewModelMapper reviewModelMapper;
 
     @Autowired
-    public PhotoControllerMVC(ContestService contestService, PhotoService photoService, PhotoModelMapper photoModelMapper) {
+    public PhotoControllerMVC(ContestService contestService, PhotoService photoService, PhotoModelMapper photoModelMapper, ReviewModelMapper reviewModelMapper) {
         this.contestService = contestService;
         this.photoService = photoService;
         this.photoModelMapper = photoModelMapper;
+        this.reviewModelMapper = reviewModelMapper;
     }
 
     @ModelAttribute("isOrganiser")
@@ -61,7 +65,7 @@ public class PhotoControllerMVC {
 
     @GetMapping("{id}")
     public String getPhotoCommentsView(@PathVariable int id,Model model,HttpSession session){
-        List<ReviewOutputDto> reviews = photoService.getPhotoReviews(id);
+        List<ReviewOutputDto> reviews = photoService.getPhotoReviews(id).stream().map(reviewModelMapper::reviewToOutputDto).collect(Collectors.toList());
         Photo photo = photoService.getPhotoById(id);
         model.addAttribute("photo",photo);
         model.addAttribute("reviews",reviews);

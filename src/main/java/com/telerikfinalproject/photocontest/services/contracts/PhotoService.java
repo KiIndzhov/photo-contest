@@ -1,6 +1,7 @@
 package com.telerikfinalproject.photocontest.services.contracts;
 
 import com.telerikfinalproject.photocontest.models.Photo;
+import com.telerikfinalproject.photocontest.models.Review;
 import com.telerikfinalproject.photocontest.models.dtomodels.ReviewOutputDto;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface PhotoService {
 
     List<Photo> getRandomWinningPhotos(int amount);
 
-    List<ReviewOutputDto> getPhotoReviews(int id);
+    List<Review> getPhotoReviews(int id);
 
     List<Photo> getAllPhotosByUserId(int userId);
 }

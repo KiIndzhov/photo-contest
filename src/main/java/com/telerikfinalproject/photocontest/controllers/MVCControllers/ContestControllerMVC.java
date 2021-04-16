@@ -1,6 +1,7 @@
 package com.telerikfinalproject.photocontest.controllers.MVCControllers;
 
 import com.telerikfinalproject.photocontest.models.Contest;
+import com.telerikfinalproject.photocontest.models.Photo;
 import com.telerikfinalproject.photocontest.models.Review;
 import com.telerikfinalproject.photocontest.models.User;
 import com.telerikfinalproject.photocontest.models.dtomodels.ContestOutputDto;
@@ -13,6 +14,7 @@ import com.telerikfinalproject.photocontest.services.contracts.ReviewService;
 import com.telerikfinalproject.photocontest.services.contracts.UserService;
 import com.telerikfinalproject.photocontest.services.mappers.ContestModelMapper;
 import com.telerikfinalproject.photocontest.services.mappers.ReviewModelMapper;
+import com.telerikfinalproject.photocontest.services.mappers.UserModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/contest")
@@ -37,15 +41,23 @@ public class ContestControllerMVC {
     private final ReviewModelMapper reviewModelMapper;
     private final ReviewService reviewService;
     private final PhotoService photoService;
+    private final UserModelMapper userModelMapper;
 
     @Autowired
-    public ContestControllerMVC(ContestService contestService, UserService userService, ContestModelMapper contestModelMapper, ReviewModelMapper reviewModelMapper, ReviewService reviewService, PhotoService photoService) {
+    public ContestControllerMVC(ContestService contestService,
+                                UserService userService,
+                                ContestModelMapper contestModelMapper,
+                                ReviewModelMapper reviewModelMapper,
+                                ReviewService reviewService,
+                                PhotoService photoService,
+                                UserModelMapper userModelMapper) {
         this.contestService = contestService;
         this.userService = userService;
         this.contestModelMapper = contestModelMapper;
         this.reviewModelMapper = reviewModelMapper;
         this.reviewService = reviewService;
         this.photoService = photoService;
+        this.userModelMapper = userModelMapper;
     }
 
     @ModelAttribute("isOrganiser")
@@ -58,13 +70,13 @@ public class ContestControllerMVC {
     public String getContestEditView(@PathVariable int id, Model model, HttpSession session) {
         Contest contest = contestService.getContestById(id);
         ContestOutputDto contestOutputDto = contestModelMapper.contestToDto(contest);
-        List<JuryDto> possibleJury = userService.getAllJurors();
+        List<JuryDto> possibleJury = userService.getAllJurors().stream().map(userModelMapper::userToJuryDto).collect(Collectors.toList());
         List<User> possibleParticipants = userService.getAllJunkies();
         boolean isInPhaseOne = contestOutputDto.getDaysPhase1().isAfter(LocalDate.now());
         model.addAttribute("contest", contestOutputDto);
         model.addAttribute("jury", possibleJury);
         model.addAttribute("participants", possibleParticipants);
-        model.addAttribute("isInPhaseOne",isInPhaseOne);
+        model.addAttribute("isInPhaseOne", isInPhaseOne);
 
 
         return "organiserEditContest";
@@ -74,7 +86,7 @@ public class ContestControllerMVC {
     @PostMapping("/organiser/{id}/edit")
     public String editContest(@PathVariable int id, @ModelAttribute("contest") ContestOutputDto contestOutputDto, BindingResult errors, Model model, HttpSession session) {
         Contest contest = contestService.getContestById(contestOutputDto.getId());
-        contestService.updateJuryAndParticipants(contest,contestOutputDto.getJuryList(),contestOutputDto.getParicipantList());
+        contestService.updateJuryAndParticipants(contest, contestOutputDto.getJuryList(), contestOutputDto.getParicipantList());
         return "redirect:/contest/organiser/" + id + "/edit/";
 
     }
@@ -103,6 +115,11 @@ public class ContestControllerMVC {
 
         userSet = new HashSet<>(contest.getParicipantList());
         if (userSet.contains(loggedUser.getId())) {
+            List<List<Photo>> contests = contestService.getRankingContests(contest);
+            model.addAttribute("firstPLace",contests.get(0));
+            model.addAttribute("secondPLace",contests.get(1));
+            model.addAttribute("thirdPLace",contests.get(2));
+            model.addAttribute("unranked",contests.get(3));
             model.addAttribute("contest", contest);
 
             LocalDateTime endPhase2 = contest.getHoursPhase2();

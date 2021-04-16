@@ -19,7 +19,7 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    List<JuryDto> getAllJurors();
+    List<User> getAllJurors();
 
     List<User> getAllJunkies();
 
@@ -28,4 +28,6 @@ public interface UserService {
     void updateUser(User user);
 
     List<User> getTopJunkies(int amountJunkies);
+
+    boolean usernameExists(String username);
 }

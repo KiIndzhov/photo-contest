@@ -20,15 +20,13 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String saveImage(MultipartFile image, String imageName) {
-        return imageRepository.saveImage(image,imageName);
+        return imageRepository.saveImage(image, imageName);
     }
+
     @Override
     public FileSystemResource getImage(String path) {
         return imageRepository.getImage(path);
     }
 
-    @Override
-    public String getImagePath(String fileName) {
-        return imageRepository.getImagePath(fileName);
-    }
+
 }

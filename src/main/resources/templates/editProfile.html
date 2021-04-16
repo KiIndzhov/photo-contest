@@ -63,10 +63,13 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link  scrollto" href="organiserProfile.html" th:href="@{/organiser/users}">Junkies</a></li>
-                <li><a class="nav-link  scrollto" href="organiserProfile.html" th:href="@{/organiser/create}">CreateContest</a>
+                <li th:if="${isOrganiser}"><a class="nav-link  scrollto" href="organiserProfile.html" th:href="@{/organiser/users}">View users</a></li>
+                <li th:if="${isOrganiser}" class="dropdown"><a href="#"><span>Create</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="#" th:href="@{/organiser/create}">Contest</a></li>
+                        <li><a href="#" th:href="@{/organiser/category}">Category</a></li>
+                    </ul>
                 </li>
-                <li><a class="nav-link  scrollto" href="organiserProfile.html" th:href="@{/organiser/category}">CreateCategory</a></li>
                 <li class="dropdown"><a href="#"><span>Profile</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="#" th:href="@{/profile/{userId}(userId=${session.loggedUser.getId()})}">View profile</a></li>
@@ -74,7 +77,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a class="nav-link scrollto" href="exitPage.html" th:href="@{/logoutPage}">Logout</a>
+                    <a class="nav-link scrollto" href="logoutPage.html" th:href="@{/logout}">Logout</a>
                 </li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>

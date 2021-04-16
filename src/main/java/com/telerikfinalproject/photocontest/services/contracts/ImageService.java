@@ -11,5 +11,4 @@ public interface ImageService {
 
     FileSystemResource getImage(String fileName);
 
-    String getImagePath(String fileName);
 }

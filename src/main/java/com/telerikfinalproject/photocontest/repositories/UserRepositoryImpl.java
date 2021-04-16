@@ -107,7 +107,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAllJuries() {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User where credential.userRole = :userRole and score > 150", User.class);
+            Query<User> query = session.createQuery("from User " +
+                    "where credential.userRole = :userRole and score > 150", User.class);
             query.setParameter("userRole", UserRole.PHOTO_JUNKIE);
             return query.getResultList();
         }

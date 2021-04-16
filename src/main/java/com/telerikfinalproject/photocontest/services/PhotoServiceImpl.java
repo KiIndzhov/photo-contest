@@ -65,15 +65,6 @@ public class PhotoServiceImpl implements PhotoService {
             reviewSet.add(review);
         }
 
-//        judgeSet.forEach(judge -> {
-//            Review review = new Review();
-//            review.setPhoto(photo);
-//            review.setScore(3);
-//            review.setUser(judge);
-//            review.setEdited(false);
-//            reviewSet.add(review);
-//        });
-
         photo.setReviewSet(reviewSet);
         photoRepository.createPhoto(photo);
         return photo;
@@ -93,7 +84,6 @@ public class PhotoServiceImpl implements PhotoService {
                 photo.getReviewSet().add(review);
             }
         }
-
         for (User user : oldJuryUserLIst) {
             if (!newJuryUserList.contains(user)) {
                 Review review = reviewService.getReviewByJuryIdAndPhotoId(user.getId(), photo.getId());
@@ -101,7 +91,6 @@ public class PhotoServiceImpl implements PhotoService {
             }
         }
     }
-
     @Override
     public List<Photo> getAllWinnerPhotos() {
         return contestRepository.getFinishedContests().stream().map(Contest::getWinnerPhoto).collect(Collectors.toList());
@@ -118,23 +107,19 @@ public class PhotoServiceImpl implements PhotoService {
         while(randomPhotoList.size() < amount){
             Photo randomPhoto = getWinningPhotos.get(rand.nextInt(getWinningPhotos.size()));
             if(randomPhotoList.contains(randomPhoto)){
-                continue;
-            }
+                continue;}
             if(randomPhoto == null){
                 amount--;
                 continue;
             }
             randomPhotoList.add(randomPhoto);
         }
-
         return randomPhotoList;
     }
-
     @Override
     public boolean canUserSubmitPhoto(int userId, int contestId) {
         return contestRepository.canUserSubmitPhoto(userId, contestId);
     }
-
     @Override
     public boolean hasUserSubmitPhotoToContest(int userId, int contestId) {
         return contestRepository.hasUserSubmitPhotoToContest(userId, contestId);
@@ -142,9 +127,9 @@ public class PhotoServiceImpl implements PhotoService {
 
 
     @Override
-    public List<ReviewOutputDto> getPhotoReviews(int id) {
-        Photo photo = photoRepository.getPhotoById(id);
-        return photo.getReviewSet().stream().map(reviewModelMapper::reviewToOutputDto).collect(Collectors.toList());
+    public List<Review> getPhotoReviews(int id) {
+        return (photoRepository.getPhotoById(id)).getReviewSet();
+
     }
 
     @Override
