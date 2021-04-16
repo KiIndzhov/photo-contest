@@ -70,7 +70,6 @@ public class ContestRepositoryImpl implements ContestRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Contest> query =
                     session.createQuery("from Contest where finished=true", Contest.class);
-            query.setParameter("date", LocalDateTime.now());
             return query.getResultList();
 
         }
