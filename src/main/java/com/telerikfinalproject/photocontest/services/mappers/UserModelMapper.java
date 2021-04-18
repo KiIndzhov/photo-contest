@@ -18,13 +18,14 @@ public class UserModelMapper {
     public static final int DEFAULT_SCORE = 0;
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserModelMapper(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserModelMapper(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public User userDtoToUser(UserDto userDto) {
