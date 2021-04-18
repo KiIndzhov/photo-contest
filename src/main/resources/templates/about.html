@@ -36,7 +36,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top ">
+<header id="header" class="">
     <div class="container d-flex align-items-center justify-content-between">
 
         <a href="#" th:href="@{/}" class="logo"><img src="../static/assets/img/logo.png" th:src="@{../assets/img/logo.png}" alt="" class="img-fluid"></a>
@@ -47,10 +47,10 @@
             <ul>
                 <li><a class="nav-link scrollto active" href="#hero" th:href="@{/}">Home</a></li>
                 <li><a class="nav-link scrollto" href="#about">About</a></li>
-                <li><a class="nav-link  scrollto" href="#portfolio">Winners</a></li>
+                <li><a class="nav-link  scrollto" href="#portfolio" th:href="@{/}">Winners</a></li>
                 <li>
                     <a th:unless="${session.loggedUser != null}" class="nav-link scrollto" href="#contact" th:href="@{/login}">Login</a>
-                    <a th:if="${session.loggedUser != null}" class="nav-link scrollto" href="#contact" th:href="@{/logout}">Logout</a>
+                    <a th:if="${session.loggedUser != null}" class="nav-link scrollto" href="#contact" th:href="@{/logoutPage}">Logout</a>
                 </li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
@@ -69,11 +69,15 @@
                 <div class="col-lg-4 ">
                     <div class="div-img-bg">
                         <div class="about-img">
-                            <img src="../static/assets/img/work.jpeg" th:src="@{../assets/img/work.jpeg}" class="img-responsive" alt="me">
+                            <a href="#" th:href="@{https://bg.linkedin.com/in/kiril-indzhov-04821720a}"> <img src="../static/assets/img/kiril.jpg" th:src="@{/../assets/img/kiril.jpg}" class="img-responsive" alt="me"></a>
+                        </div>
+                    </div>
+                    <div class="div-img-bg">
+                        <div class="about-img">
+                            <a href="#" th:href="@{https://www.linkedin.com/in/iliyan-daskalov-779a0016a/?originalSubdomain=bg}"> <img src="../static/assets/img/ilian.png" th:src="@{/../assets/img/ilian.png}" class="img-responsive" alt="me"></a>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-7">
                     <div class="about-descr">
 
