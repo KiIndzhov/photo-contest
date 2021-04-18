@@ -24,18 +24,14 @@ public class JunkieController {
 
     private final ContestService contestService;
     private final ContestModelMapper contestModelMapper;
-    private final ContestCategoryService contestCategoryService;
-    private final UserService userService;
+
 
     @Autowired
     public JunkieController(ContestService contestService,
-                            ContestModelMapper contestModelMapper,
-                            ContestCategoryService contestCategoryService,
-                            UserService userService) {
+                            ContestModelMapper contestModelMapper) {
         this.contestService = contestService;
         this.contestModelMapper = contestModelMapper;
-        this.contestCategoryService = contestCategoryService;
-        this.userService = userService;
+
     }
 
     @GetMapping()

@@ -51,15 +51,6 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public void updatePhoto(Photo photo) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.update(photo);
-            session.getTransaction().commit();
-        }
-    }
-
-    @Override
     public List<Photo> getAllWinnerPhotos() {
         try (Session session = sessionFactory.openSession()) {
             Query<Photo> query = session.createQuery("from Photo p " +

@@ -26,8 +26,6 @@ public class ReviewModelMapper {
         return review;
     }
 
-    // TODO: 10/04/2021 da iztriem li gorniq metod i da go podmenim s rest controllera s dolniq?
-
     public Review reviewDtoToReview(ReviewDto reviewDto){
         Review review = reviewService.getReviewByJuryIdAndPhotoId(reviewDto.getJuryId(), reviewDto.getPhotoId());
         if(reviewDto.isSuitable()){

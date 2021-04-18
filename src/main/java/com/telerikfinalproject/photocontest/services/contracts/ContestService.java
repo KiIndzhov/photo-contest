@@ -19,6 +19,11 @@ public interface ContestService {
 
     void addUserToContest(int id, int userId);
 
+    void rankPhoto(List<Photo> firstPlacePhotos,
+                             List<Photo> secondPlacePhotos,
+                             List<Photo> thirdPlacePhotos,
+                             Photo photo);
+
     List<Contest> getFilteredContests(String filter);
 
     List<Contest> getFilteredContestsByUserId(String filter, int userId);

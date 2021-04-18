@@ -26,14 +26,12 @@ public class PhotoServiceImpl implements PhotoService {
     private final PhotoRepository photoRepository;
     private final ContestRepository contestRepository;
     private final ReviewService reviewService;
-    private final ReviewModelMapper reviewModelMapper;
 
     @Autowired
-    public PhotoServiceImpl(PhotoRepository photoRepository, ContestRepository contestRepository, ReviewService reviewService, ReviewModelMapper reviewModelMapper) {
+    public PhotoServiceImpl(PhotoRepository photoRepository, ContestRepository contestRepository, ReviewService reviewService) {
         this.photoRepository = photoRepository;
         this.contestRepository = contestRepository;
         this.reviewService = reviewService;
-        this.reviewModelMapper = reviewModelMapper;
     }
 
     @Override

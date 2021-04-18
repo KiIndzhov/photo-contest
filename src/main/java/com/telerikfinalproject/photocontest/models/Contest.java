@@ -54,7 +54,6 @@ public class Contest {
     )
     private Set<User> participantsSet;
 
-    //TODO if this should be ManyToMany or OneToMany
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinTable(

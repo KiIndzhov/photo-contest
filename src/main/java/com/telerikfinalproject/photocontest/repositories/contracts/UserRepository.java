@@ -14,8 +14,6 @@ public interface UserRepository {
 
     User updateUser(User user);
 
-    void deleteUser(int id);
-
     User getUserByUsername(String username);
 
     List<User> getAllJunkies();

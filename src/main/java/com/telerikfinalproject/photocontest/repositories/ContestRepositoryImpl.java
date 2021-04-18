@@ -69,7 +69,8 @@ public class ContestRepositoryImpl implements ContestRepository {
     public List<Contest> getFinishedContests() {
         try (Session session = sessionFactory.openSession()) {
             Query<Contest> query =
-                    session.createQuery("from Contest where finished=true", Contest.class);
+                    session.createQuery("from Contest where timeLimitPhase2 < :date", Contest.class);
+            query.setParameter("date", LocalDateTime.now());
             return query.getResultList();
 
         }

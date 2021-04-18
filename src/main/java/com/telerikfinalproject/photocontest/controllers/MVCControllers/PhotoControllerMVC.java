@@ -21,15 +21,14 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/photo")
 public class PhotoControllerMVC {
-    private final ContestService contestService;
+
     private final PhotoService photoService;
     private final PhotoModelMapper photoModelMapper;
     private final ReviewModelMapper reviewModelMapper;
 
     @Autowired
-    public PhotoControllerMVC(ContestService contestService, PhotoService photoService, PhotoModelMapper photoModelMapper, ReviewModelMapper reviewModelMapper) {
-        this.contestService = contestService;
-        this.photoService = photoService;
+    public PhotoControllerMVC(PhotoService photoService, PhotoModelMapper photoModelMapper, ReviewModelMapper reviewModelMapper) {
+                this.photoService = photoService;
         this.photoModelMapper = photoModelMapper;
         this.reviewModelMapper = reviewModelMapper;
     }

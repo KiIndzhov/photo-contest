@@ -71,16 +71,4 @@ public class Credential {
         this.userRole = userRole;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Credential credential = (Credential) o;
-//        return id == credential.id && username.equals(credential.username) && password.equals(credential.password);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(username);
-//    }
 }

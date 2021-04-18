@@ -55,32 +55,10 @@ public class ScheduledService {
         for (Photo photo : contest.getPhotoSet()) {
 
             addParticipationPointsToAllContestParticipants(contest, photo);
-
-            if (firstPlacePhotos.isEmpty()) {
-                firstPlacePhotos.add(photo);
-                continue;
-            }
-            if (photo.getPoints() == firstPlacePhotos.get(0).getPoints()) {
-                firstPlacePhotos.add(photo);
-                continue;
-            }
-            if (secondPlacePhotos.isEmpty()) {
-                secondPlacePhotos.add(photo);
-                continue;
-            }
-            if (photo.getPoints() == secondPlacePhotos.get(0).getPoints()) {
-                secondPlacePhotos.add(photo);
-                continue;
-            }
-            if (thirdPlacePhotos.isEmpty()) {
-                thirdPlacePhotos.add(photo);
-                continue;
-            }
-            if (photo.getPoints() == thirdPlacePhotos.get(0).getPoints()) {
-                thirdPlacePhotos.add(photo);
-            }
+            contestService.rankPhoto(firstPlacePhotos,secondPlacePhotos,thirdPlacePhotos,photo);
         }
     }
+
 
     private void addParticipationPointsToAllContestParticipants(Contest contest, Photo photo) {
         if (!contest.getOpen()) {

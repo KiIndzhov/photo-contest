@@ -64,16 +64,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteUser(int id) {
-        User userToDelete = getUserById(id);
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.delete(userToDelete);
-            session.getTransaction().commit();
-        }
-    }
-
-    @Override
     public User getUserByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("from User u where u.credential.username = :username", User.class);

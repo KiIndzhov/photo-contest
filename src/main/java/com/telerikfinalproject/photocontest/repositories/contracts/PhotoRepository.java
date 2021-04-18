@@ -11,8 +11,6 @@ public interface PhotoRepository {
 
     void createPhoto(Photo photo);
 
-    void updatePhoto(Photo photo);
-
     List<Photo> getAllWinnerPhotos();
 
     List<Photo> getAllPhotosByUserId(int userId);

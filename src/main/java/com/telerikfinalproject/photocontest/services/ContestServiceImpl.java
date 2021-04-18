@@ -152,40 +152,50 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public List<List<Photo>> getRankingContests(ContestOutputDto contest) {
-        List<Photo> firstPlace = new ArrayList<>();
-        List<Photo> secondPlace = new ArrayList<>();
-        List<Photo> thirdPlace = new ArrayList<>();
+        List<Photo> firstPlacePhotos = new ArrayList<>();
+        List<Photo> secondPlacePhotos = new ArrayList<>();
+        List<Photo> thirdPlacePhotos = new ArrayList<>();
         List<Photo> unranked = new ArrayList<>();
-        List<List<Photo>> contests = new ArrayList<>(Arrays.asList(firstPlace,secondPlace,thirdPlace,unranked));
+        List<List<Photo>> contests = new ArrayList<>(Arrays.asList(firstPlacePhotos,secondPlacePhotos,thirdPlacePhotos,unranked));
         for (Photo photo : contest.getPhotoList()) {
-            if(firstPlace.isEmpty()){
-                firstPlace.add(photo);
-                continue;
-            }
-            if(firstPlace.get(0).getPoints()==photo.getPoints()){
-                firstPlace.add(photo);
-                continue;
-            }
-            if(secondPlace.isEmpty()){
-                secondPlace.add(photo);
-                continue;
-            }
-            if(secondPlace.get(0).getPoints()==photo.getPoints()){
-                secondPlace.add(photo);
-                continue;
-            }
-            if(thirdPlace.isEmpty()){
-                thirdPlace.add(photo);
-                continue;
-            }
-            if(thirdPlace.get(0).getPoints()==photo.getPoints()){
-                thirdPlace.add(photo);
-                continue;
-            }
+
+            rankPhoto(firstPlacePhotos,secondPlacePhotos,thirdPlacePhotos,photo);
             unranked.add(photo);
+
         }
 
         return contests;
+    }
+
+    @Override
+    public void rankPhoto(List<Photo> firstPlacePhotos,
+                          List<Photo> secondPlacePhotos,
+                          List<Photo> thirdPlacePhotos,
+                          Photo photo){
+        if (firstPlacePhotos.isEmpty()) {
+            firstPlacePhotos.add(photo);
+            return;
+        }
+        if (photo.getPoints() == firstPlacePhotos.get(0).getPoints()) {
+            firstPlacePhotos.add(photo);
+            return;
+        }
+        if (secondPlacePhotos.isEmpty()) {
+            secondPlacePhotos.add(photo);
+            return;
+        }
+        if (photo.getPoints() == secondPlacePhotos.get(0).getPoints()) {
+            secondPlacePhotos.add(photo);
+            return;
+        }
+        if (thirdPlacePhotos.isEmpty()) {
+            thirdPlacePhotos.add(photo);
+            return;
+        }
+        if (photo.getPoints() == thirdPlacePhotos.get(0).getPoints()) {
+            thirdPlacePhotos.add(photo);
+        }
+
     }
 
     private void updateJurySet(Contest contest, List<Integer> newJurySet) {

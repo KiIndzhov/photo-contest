@@ -48,10 +48,7 @@ public class CredentialRepositoryImpl implements CredentialRepository {
     public Credential getUserCredentials(String username, String password) {
         Optional<Credential> credential = getCredentialByUsername(username);
         credential.orElseThrow(() -> new EntityNotFoundException("User", "username", username));
-//        Credential credential = getCredentialByUsername(username);
-//        if (credential == null) {
-//            throw new EntityNotFoundException("User", "username", username);
-//        }
+
         if (!credential.get().getPassword().equals(password)) {
             throw new WrongPasswordException();
         }

@@ -14,12 +14,11 @@ import java.util.List;
 public class ContestCategoryServiceImpl implements ContestCategoryService {
 
     private final ContestCategoryRepository contestCategoryRepository;
-    private final CategoryModelMapper categoryModelMapper;
 
     @Autowired
-    public ContestCategoryServiceImpl(ContestCategoryRepository contestCategoryRepository, CategoryModelMapper categoryModelMapper) {
+    public ContestCategoryServiceImpl(ContestCategoryRepository contestCategoryRepository) {
         this.contestCategoryRepository = contestCategoryRepository;
-        this.categoryModelMapper = categoryModelMapper;
+
     }
 
     @Override
