@@ -140,8 +140,12 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public void updateJuryAndParticipants(Contest contest, List<Integer> newJurySet, List<Integer> newParticipantsSet) {
-        updateJurySet(contest, newJurySet);
-        updateParticipantsSet(contest, newParticipantsSet);
+        if(newJurySet != null) {
+            updateJurySet(contest, newJurySet);
+        }
+        if(newParticipantsSet != null) {
+            updateParticipantsSet(contest, newParticipantsSet);
+        }
 
         List<Photo> photoList = contest.getPhotoSet();
         for (Photo photo : photoList) {
