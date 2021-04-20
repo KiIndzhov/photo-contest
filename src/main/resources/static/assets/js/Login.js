@@ -45,8 +45,14 @@ $(function() {
 
     $("form[name='registration']").validate({
         rules: {
-            firstname: "required",
-            lastname: "required",
+            firstname:{
+                required:true,
+                minlength: 2
+            },
+            lastname: {
+                required:true,
+                minlength: 2
+            } ,
             username: {
                 required: true,
                 username: true
