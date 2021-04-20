@@ -102,7 +102,8 @@ public class ContestControllerMVC {
 
             ReviewDto reviewToUpdate = new ReviewDto();
             reviewToUpdate.setScore(3);
-            boolean canShow = contest.getDaysPhase1().isBefore(LocalDate.now());
+//            boolean canShow = contest.getDaysPhase1().isBefore(LocalDate.now());
+            boolean canShow = (contest.getDaysPhase1().minusDays(1)).isBefore(LocalDate.now());
             LocalDate timeLeft = contest.getDaysPhase1();
 
             model.addAttribute("contest", contest);
