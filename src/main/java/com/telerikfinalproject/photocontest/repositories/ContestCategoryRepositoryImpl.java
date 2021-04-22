@@ -40,7 +40,7 @@ public class ContestCategoryRepositoryImpl implements ContestCategoryRepository 
 
     @Override
     public void addCategory(ContestCategory category) {
-        try(Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(category);
             session.getTransaction().commit();
@@ -50,8 +50,9 @@ public class ContestCategoryRepositoryImpl implements ContestCategoryRepository 
     @Override
     public boolean categoryExist(ContestCategory category) {
         try (Session session = sessionFactory.openSession()) {
-            Query<ContestCategory> query = session.createQuery("from ContestCategory where category = :categoryName",ContestCategory.class);
-            query.setParameter("categoryName",category.getCategory());
+            Query<ContestCategory> query = session.createQuery("from ContestCategory " +
+                    "where category = :categoryName", ContestCategory.class);
+            query.setParameter("categoryName", category.getCategory());
             return !query.getResultList().isEmpty();
         }
     }

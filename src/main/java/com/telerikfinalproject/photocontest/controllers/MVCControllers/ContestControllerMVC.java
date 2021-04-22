@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,28 +66,35 @@ public class ContestControllerMVC {
     }
 
     @GetMapping("/organiser/{id}/edit")
-    public String getContestEditView(@PathVariable int id, Model model, HttpSession session) {
+    public String getContestEditView(@PathVariable int id,
+                                     Model model,
+                                     HttpSession session) {
+
         Contest contest = contestService.getContestById(id);
         ContestOutputDto contestOutputDto = contestModelMapper.contestToDto(contest);
-        List<JuryDto> possibleJury = userService.getAllJurors().stream().map(userModelMapper::userToJuryDto).collect(Collectors.toList());
+        List<JuryDto> possibleJury = userService.getAllJurors().stream()
+                .map(userModelMapper::userToJuryDto)
+                .collect(Collectors.toList());
         List<User> possibleParticipants = userService.getAllJunkies();
         boolean isInPhaseOne = contestOutputDto.getDaysPhase1().isAfter(LocalDate.now());
+
         model.addAttribute("contest", contestOutputDto);
         model.addAttribute("jury", possibleJury);
         model.addAttribute("participants", possibleParticipants);
         model.addAttribute("isInPhaseOne", isInPhaseOne);
 
-
         return "organiserEditContest";
-
     }
 
     @PostMapping("/organiser/{id}/edit")
-    public String editContest(@PathVariable int id, @ModelAttribute("contest") ContestOutputDto contestOutputDto, BindingResult errors, Model model, HttpSession session) {
+    public String editContest(@PathVariable int id,
+                              @ModelAttribute("contest") ContestOutputDto contestOutputDto,
+                              BindingResult errors, Model model, HttpSession session) {
+
         Contest contest = contestService.getContestById(contestOutputDto.getId());
         contestService.updateJuryAndParticipants(contest, contestOutputDto.getJuryList(), contestOutputDto.getParicipantList());
-        return "redirect:/contest/organiser/" + id + "/edit/";
 
+        return "redirect:/contest/organiser/" + id + "/edit/";
     }
 
     @GetMapping("/{id}")
@@ -102,7 +108,6 @@ public class ContestControllerMVC {
 
             ReviewDto reviewToUpdate = new ReviewDto();
             reviewToUpdate.setScore(3);
-//            boolean canShow = contest.getDaysPhase1().isBefore(LocalDate.now());
             boolean canShow = (contest.getDaysPhase1().minusDays(1)).isBefore(LocalDate.now());
             LocalDate timeLeft = contest.getDaysPhase1();
 
@@ -117,10 +122,10 @@ public class ContestControllerMVC {
         userSet = new HashSet<>(contest.getParicipantList());
         if (userSet.contains(loggedUser.getId())) {
             List<List<Photo>> contests = contestService.getRankingContests(contest);
-            model.addAttribute("firstPLace",contests.get(0));
-            model.addAttribute("secondPLace",contests.get(1));
-            model.addAttribute("thirdPLace",contests.get(2));
-            model.addAttribute("unranked",contests.get(3));
+            model.addAttribute("firstPLace", contests.get(0));
+            model.addAttribute("secondPLace", contests.get(1));
+            model.addAttribute("thirdPLace", contests.get(2));
+            model.addAttribute("unranked", contests.get(3));
             model.addAttribute("contest", contest);
 
             LocalDateTime endPhase2 = contest.getHoursPhase2();
@@ -141,9 +146,14 @@ public class ContestControllerMVC {
     }
 
     @PostMapping("/{id}")
-    public String submitReview(@Valid @ModelAttribute("review") ReviewDto reviewDto, @PathVariable int id, Model model, HttpSession session) {
+    public String submitReview(@Valid @ModelAttribute("review") ReviewDto reviewDto,
+                               @PathVariable int id,
+                               Model model,
+                               HttpSession session) {
+
         Review review = reviewModelMapper.reviewDtoToReview(reviewDto);
         reviewService.updateReview(review);
+
         return "redirect:/contest/" + id;
     }
 
@@ -160,6 +170,4 @@ public class ContestControllerMVC {
         contestService.addUserToContest(contestId, userId);
         return "redirect:/contest/" + contestId;
     }
-
-
 }

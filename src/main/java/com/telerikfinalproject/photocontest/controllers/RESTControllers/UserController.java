@@ -44,21 +44,20 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @ApiOperation(value = USER_BY_ID , response = User.class)
+    @ApiOperation(value = USER_BY_ID, response = User.class)
     @GetMapping("/{id}")
     public UserOutputDto getUserById(@PathVariable int id, @RequestHeader HttpHeaders headers) {
         Credential credential = authenticationHelper.getUserCredentials(headers);
         return mapper.userToDto(userService.getUserById(id, credential));
     }
 
-    @ApiOperation(value = CREATE_USER , response = User.class)
+    @ApiOperation(value = CREATE_USER, response = User.class)
     @PostMapping
     public User createUser(@Valid @RequestBody UserDto userDto) {
         User user = mapper.userDtoToUser(userDto);
         userService.createUser(user);
         return user;
     }
-
 
 
 }

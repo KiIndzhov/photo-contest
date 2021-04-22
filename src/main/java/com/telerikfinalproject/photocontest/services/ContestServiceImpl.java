@@ -13,7 +13,6 @@ import com.telerikfinalproject.photocontest.services.contracts.PhotoService;
 import com.telerikfinalproject.photocontest.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.DateTimeException;
@@ -160,10 +159,10 @@ public class ContestServiceImpl implements ContestService {
         List<Photo> secondPlacePhotos = new ArrayList<>();
         List<Photo> thirdPlacePhotos = new ArrayList<>();
         List<Photo> unranked = new ArrayList<>();
-        List<List<Photo>> contests = new ArrayList<>(Arrays.asList(firstPlacePhotos,secondPlacePhotos,thirdPlacePhotos,unranked));
+        List<List<Photo>> contests = new ArrayList<>(Arrays.asList(firstPlacePhotos, secondPlacePhotos, thirdPlacePhotos, unranked));
         for (Photo photo : contest.getPhotoList()) {
 
-            rankPhoto(firstPlacePhotos,secondPlacePhotos,thirdPlacePhotos,photo);
+            rankPhoto(firstPlacePhotos, secondPlacePhotos, thirdPlacePhotos, photo);
             unranked.add(photo);
 
         }
@@ -175,7 +174,7 @@ public class ContestServiceImpl implements ContestService {
     public void rankPhoto(List<Photo> firstPlacePhotos,
                           List<Photo> secondPlacePhotos,
                           List<Photo> thirdPlacePhotos,
-                          Photo photo){
+                          Photo photo) {
         if (firstPlacePhotos.isEmpty()) {
             firstPlacePhotos.add(photo);
             return;

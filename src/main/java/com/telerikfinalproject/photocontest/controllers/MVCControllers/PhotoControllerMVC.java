@@ -27,35 +27,40 @@ public class PhotoControllerMVC {
     private final ReviewModelMapper reviewModelMapper;
 
     @Autowired
-    public PhotoControllerMVC(PhotoService photoService, PhotoModelMapper photoModelMapper, ReviewModelMapper reviewModelMapper) {
-                this.photoService = photoService;
+    public PhotoControllerMVC(PhotoService photoService,
+                              PhotoModelMapper photoModelMapper,
+                              ReviewModelMapper reviewModelMapper) {
+        this.photoService = photoService;
         this.photoModelMapper = photoModelMapper;
         this.reviewModelMapper = reviewModelMapper;
     }
 
     @ModelAttribute("isOrganiser")
-    private boolean isOrganiser(HttpSession session){
+    private boolean isOrganiser(HttpSession session) {
         UserOutputDto loggedUser = (UserOutputDto) session.getAttribute("loggedUser");
         return loggedUser.getRole().equals("ORGANIZER");
     }
 
     @GetMapping("/submit/{contestId}")
-    public String getSubmitPhotoView(@PathVariable int contestId, Model model, HttpSession session){
+    public String getSubmitPhotoView(@PathVariable int contestId, Model model, HttpSession session) {
         UserOutputDto loggedUser = (UserOutputDto) session.getAttribute("loggedUser");
 
-        if(!photoService.canUserSubmitPhoto(loggedUser.getId(), contestId) || photoService.hasUserSubmitPhotoToContest(loggedUser.getId(), contestId)){
+        if (!photoService.canUserSubmitPhoto(loggedUser.getId(), contestId) || photoService.hasUserSubmitPhotoToContest(loggedUser.getId(), contestId)) {
             return "redirect:/";
         }
         PhotoCreateDto submitPhoto = new PhotoCreateDto();
         submitPhoto.setContestId(contestId);
         submitPhoto.setUserId(loggedUser.getId());
-        model.addAttribute("photo",submitPhoto);
+        model.addAttribute("photo", submitPhoto);
 
         return "submitPhotoView";
     }
 
     @PostMapping("/submit/{contestId}")
-    public String submitPhoto(@PathVariable int contestId, @ModelAttribute("photo") PhotoCreateDto photoCreateDto, Model model, HttpSession session, BindingResult errors){
+    public String submitPhoto(@PathVariable int contestId,
+                              @ModelAttribute("photo") PhotoCreateDto photoCreateDto,
+                              Model model, HttpSession session,
+                              BindingResult errors) {
         Photo photo = photoModelMapper.dtoToPhoto(photoCreateDto);
         photoService.createPhoto(photo);
 
@@ -63,11 +68,16 @@ public class PhotoControllerMVC {
     }
 
     @GetMapping("{id}")
-    public String getPhotoCommentsView(@PathVariable int id,Model model,HttpSession session){
-        List<ReviewOutputDto> reviews = photoService.getPhotoReviews(id).stream().map(reviewModelMapper::reviewToOutputDto).collect(Collectors.toList());
+    public String getPhotoCommentsView(@PathVariable int id,
+                                       Model model,
+                                       HttpSession session) {
+        List<ReviewOutputDto> reviews = photoService.getPhotoReviews(id).stream()
+                .map(reviewModelMapper::reviewToOutputDto)
+                .collect(Collectors.toList());
         Photo photo = photoService.getPhotoById(id);
-        model.addAttribute("photo",photo);
-        model.addAttribute("reviews",reviews);
+
+        model.addAttribute("photo", photo);
+        model.addAttribute("reviews", reviews);
 
         return "photoView";
     }

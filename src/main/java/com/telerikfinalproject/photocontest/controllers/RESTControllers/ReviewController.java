@@ -33,21 +33,23 @@ public class ReviewController {
         this.authenticationHelper = authenticationHelper;
     }
 
-    @ApiOperation(value = ALL_REVIEWS , response = List.class)
+    @ApiOperation(value = ALL_REVIEWS, response = List.class)
     @GetMapping
     public List<Review> getAllReviews() {
         return reviewService.getAllReviews();
     }
 
-    @ApiOperation(value = REVIEW_BY_ID , response = Review.class)
+    @ApiOperation(value = REVIEW_BY_ID, response = Review.class)
     @GetMapping("/{id}")
     public Review getReviewById(@PathVariable int id) {
         return reviewService.getReviewById(id);
     }
 
-    @ApiOperation(value = GIVE_REVIEW , response = Review.class)
+    @ApiOperation(value = GIVE_REVIEW, response = Review.class)
     @PostMapping("/{id}")
-    public Review updateReview(@PathVariable int id, @Valid @RequestBody ReviewUpdateDto reviewDto, @RequestHeader HttpHeaders headers) {
+    public Review updateReview(@PathVariable int id,
+                               @Valid @RequestBody ReviewUpdateDto reviewDto,
+                               @RequestHeader HttpHeaders headers) {
         Credential credential = authenticationHelper.getUserCredentials(headers);
         User user = authenticationHelper.getUserByCredentials(credential);
         Review review = mapper.reviewDtoToReview(reviewDto, id);

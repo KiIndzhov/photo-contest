@@ -35,7 +35,11 @@ public class HomeController {
     private final ContestModelMapper contestModelMapper;
 
     @Autowired
-    public HomeController(UserService userService, UserModelMapper userModelMapper, PhotoService photoService, ContestService contestService, ContestModelMapper contestModelMapper) {
+    public HomeController(UserService userService,
+                          UserModelMapper userModelMapper,
+                          PhotoService photoService,
+                          ContestService contestService,
+                          ContestModelMapper contestModelMapper) {
         this.userService = userService;
         this.userModelMapper = userModelMapper;
         this.photoService = photoService;
@@ -46,15 +50,20 @@ public class HomeController {
     @GetMapping
     public String showHomepage(Model model, HttpSession session) {
         UserOutputDto user = (UserOutputDto) session.getAttribute("loggedUser");
-        model.addAttribute("winnerPhotos",photoService.getRandomWinningPhotos(RANDOM_PHOTOS));
-        model.addAttribute("openContests",contestService.getContestsInFirstPhase().stream().map(contestModelMapper::contestToDto).collect(Collectors.toList()));
-        model.addAttribute("topJunkies",userService.getTopJunkies(AMOUNT_JUNKIES).stream().map(userModelMapper::userToDto).collect(Collectors.toList()));
+        model.addAttribute("winnerPhotos", photoService.getRandomWinningPhotos(RANDOM_PHOTOS));
+        model.addAttribute("openContests", contestService.getContestsInFirstPhase().stream()
+                .map(contestModelMapper::contestToDto)
+                .collect(Collectors.toList()));
+        model.addAttribute("topJunkies", userService.getTopJunkies(AMOUNT_JUNKIES).stream()
+                .map(userModelMapper::userToDto)
+                .collect(Collectors.toList()));
+
         if (user != null) {
             if (user.getRole().equals(UserRole.ORGANIZER.toString())) {
                 return "redirect:/organiser";
             }
             if (user.getRole().equals(UserRole.PHOTO_JUNKIE.toString())) {
-                return  "redirect:/junkie";
+                return "redirect:/junkie";
             }
         }
 
@@ -73,7 +82,10 @@ public class HomeController {
     }
 
     @PostMapping("register")
-    public String register(@Valid @ModelAttribute("user") UserDto userDto, BindingResult errors, HttpSession session, Model model) {
+    public String register(@Valid @ModelAttribute("user") UserDto userDto,
+                           BindingResult errors,
+                           HttpSession session,
+                           Model model) {
         if (errors.hasErrors()) {
             return "/login";
         }
@@ -91,5 +103,4 @@ public class HomeController {
     public String showLogout(HttpSession session) {
         return "/logoutPage";
     }
-
- }
+}

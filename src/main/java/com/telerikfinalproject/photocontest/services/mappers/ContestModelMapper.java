@@ -34,19 +34,19 @@ public class ContestModelMapper {
         Contest contest = new Contest();
         contest.setTitle(contestCreateDto.getTitle());
         contest.setCategory(contestCategoryService.getCategoryById(contestCreateDto.getCategory()));
-        contest.setTimeLimitPhase1(LocalDateTime.of(contestCreateDto.getDaysPhase1().toLocalDate(),LocalTime.of(0,0)));
+        contest.setTimeLimitPhase1(LocalDateTime.of(contestCreateDto.getDaysPhase1().toLocalDate(), LocalTime.of(0, 0)));
         contest.setTimeLimitPhase2(contest.getTimeLimitPhase1().plusHours(contestCreateDto.getHoursPhase2()));
         contest.setOpen(contestCreateDto.getIsOpen());
         contest.setCoverPhotoPath(imageService.saveImage(contestCreateDto.getCoverPhoto(), contestCreateDto.getTitle()));
         contest.setFinished(false);
 
-        if(contestCreateDto.getJuryList() == null){
+        if (contestCreateDto.getJuryList() == null) {
             contest.setJurySet(new HashSet<>());
         }
         contest.setJurySet(contestCreateDto.getJuryList().stream()
                 .map(userService::getUserById)
                 .collect(Collectors.toSet()));
-        if(contestCreateDto.getParticipantsSet() == null){
+        if (contestCreateDto.getParticipantsSet() == null) {
             contest.setParticipantsSet(new HashSet<>());
         } else {
             contest.setParticipantsSet(contestCreateDto.getParticipantsSet().stream()

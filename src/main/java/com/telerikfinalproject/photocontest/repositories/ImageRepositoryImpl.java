@@ -19,7 +19,6 @@ public class ImageRepositoryImpl implements ImageRepository {
     private final String OUTPUT_DIR = "/images/";
 
 
-
     @Override
     public String saveImage(MultipartFile image, String imageName) {
         String filename = new Date().getTime() + "_" + imageName;
@@ -27,12 +26,11 @@ public class ImageRepositoryImpl implements ImageRepository {
         try {
             Files.createDirectories(path.getParent());
             Files.write(path, image.getBytes());
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return OUTPUT_DIR + filename;
-
     }
 
     @Override
@@ -43,5 +41,4 @@ public class ImageRepositoryImpl implements ImageRepository {
             throw new RuntimeException();
         }
     }
-
 }

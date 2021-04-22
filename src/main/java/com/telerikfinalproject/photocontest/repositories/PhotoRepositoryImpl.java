@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -51,36 +50,11 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public List<Photo> getAllWinnerPhotos() {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Photo> query = session.createQuery("from Photo p " +
-                            "where p.id in (select distinct c.id from Contest c where timeLimitPhase2 < :date) "
-//                    "and p.id in (select distinct pp.id, sum(reviewSet.score) as totalScore from Photo pp, in (pp.reviewSet) reviewSet order by reviewSet.score desc)"
-                    , Photo.class);
-            query.setParameter("date", LocalDateTime.now());
-            return query.getResultList();
-        }
-    }
-
-    @Override
     public List<Photo> getAllPhotosByUserId(int userId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Photo> query = session.createQuery("FROM Photo p where user.id = :id ", Photo.class);
             query.setParameter("id", userId);
             return query.getResultList();
-        }
-    }
-
-
-    public List<Photo> getAllPhotosInAContest(int contestId) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Photo> query = session.createQuery("FROM Photo where contest.id =:contestId", Photo.class);
-            query.setParameter("contestId", contestId);
-            List<Photo> result = query.getResultList();
-            if (result.isEmpty()) {
-                throw new EntityNotFoundException("No photos in this contest");
-            }
-            return result;
         }
     }
 }

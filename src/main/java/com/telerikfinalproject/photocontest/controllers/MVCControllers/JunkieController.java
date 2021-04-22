@@ -3,9 +3,7 @@ package com.telerikfinalproject.photocontest.controllers.MVCControllers;
 import com.telerikfinalproject.photocontest.models.Contest;
 import com.telerikfinalproject.photocontest.models.dtomodels.ContestOutputDto;
 import com.telerikfinalproject.photocontest.models.dtomodels.UserOutputDto;
-import com.telerikfinalproject.photocontest.services.contracts.ContestCategoryService;
 import com.telerikfinalproject.photocontest.services.contracts.ContestService;
-import com.telerikfinalproject.photocontest.services.contracts.UserService;
 import com.telerikfinalproject.photocontest.services.mappers.ContestModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,20 +23,17 @@ public class JunkieController {
     private final ContestService contestService;
     private final ContestModelMapper contestModelMapper;
 
-
     @Autowired
-    public JunkieController(ContestService contestService,
-                            ContestModelMapper contestModelMapper) {
+    public JunkieController(ContestService contestService, ContestModelMapper contestModelMapper) {
         this.contestService = contestService;
         this.contestModelMapper = contestModelMapper;
-
     }
 
     @GetMapping()
     public String showJunkieHomepage(Model model, HttpSession session) {
         int userId = ((UserOutputDto) session.getAttribute("loggedUser")).getId();
 
-        List<ContestOutputDto> outputDtoList = contestService.getFilteredContestsByUserId("available",userId).stream()
+        List<ContestOutputDto> outputDtoList = contestService.getFilteredContestsByUserId("available", userId).stream()
                 .map(contestModelMapper::contestToDto)
                 .collect(Collectors.toList());
 
@@ -67,6 +62,4 @@ public class JunkieController {
 
         return "junkie";
     }
-
-
 }

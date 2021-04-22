@@ -27,7 +27,8 @@ public class CredentialRepositoryImpl implements CredentialRepository {
     @Override
     public boolean usernameExists(String username) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Credential> query = session.createQuery("FROM Credential WHERE username = :username", Credential.class);
+            Query<Credential> query = session.createQuery("FROM Credential " +
+                    "WHERE username = :username", Credential.class);
             query.setParameter("username", username);
             List<Credential> result = query.getResultList();
             return !result.isEmpty();
@@ -48,7 +49,6 @@ public class CredentialRepositoryImpl implements CredentialRepository {
     public Credential getUserCredentials(String username, String password) {
         Optional<Credential> credential = getCredentialByUsername(username);
         credential.orElseThrow(() -> new EntityNotFoundException("User", "username", username));
-
         if (!credential.get().getPassword().equals(password)) {
             throw new WrongPasswordException();
         }
@@ -58,7 +58,8 @@ public class CredentialRepositoryImpl implements CredentialRepository {
     @Override
     public Optional<Credential> getCredentialByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Credential> query = session.createQuery("FROM Credential WHERE username = :username", Credential.class);
+            Query<Credential> query = session.createQuery("FROM Credential " +
+                    "WHERE username = :username", Credential.class);
             query.setParameter("username", username);
             List<Credential> result = query.getResultList();
             return Optional.of(result.get(0));

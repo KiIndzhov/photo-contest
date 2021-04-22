@@ -62,10 +62,9 @@ public class PhotoController {
         return photoService.hasUserSubmitPhotoToContest(userId, contestId);
     }
 
-    @ApiOperation(value = WINNER_PHOTOS , response = Photo.class)
+    @ApiOperation(value = WINNER_PHOTOS, response = Photo.class)
     @GetMapping("/winners")
     public List<Photo> getAllWinnerPhotos() {
         return photoService.getAllWinnerPhotos();
     }
-
 }

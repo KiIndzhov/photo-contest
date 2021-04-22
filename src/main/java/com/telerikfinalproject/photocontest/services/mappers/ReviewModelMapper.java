@@ -26,9 +26,9 @@ public class ReviewModelMapper {
         return review;
     }
 
-    public Review reviewDtoToReview(ReviewDto reviewDto){
+    public Review reviewDtoToReview(ReviewDto reviewDto) {
         Review review = reviewService.getReviewByJuryIdAndPhotoId(reviewDto.getJuryId(), reviewDto.getPhotoId());
-        if(reviewDto.isSuitable()){
+        if (reviewDto.isSuitable()) {
             review.setScore(0);
             review.setComment(NOT_SUITABLE);
         } else {
@@ -40,7 +40,7 @@ public class ReviewModelMapper {
 
     }
 
-    public ReviewOutputDto reviewToOutputDto(Review review){
+    public ReviewOutputDto reviewToOutputDto(Review review) {
         ReviewOutputDto outputDto = new ReviewOutputDto();
         outputDto.setJuryName(review.getUser().getFirstName() + " " + review.getUser().getLastName());
         outputDto.setComment(review.getComment());

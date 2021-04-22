@@ -105,9 +105,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getTopJunkies(int amount){
-        try(Session session = sessionFactory.openSession()){
-            Query<User> query = session.createQuery("from User ORDER BY score DESC",User.class);
+    public List<User> getTopJunkies(int amount) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User ORDER BY score DESC", User.class);
             query.setMaxResults(amount);
             return query.getResultList();
         }

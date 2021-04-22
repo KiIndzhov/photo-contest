@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class CategoryDto {
 
     @NotNull
-    @Size(min=2, max = 100, message = "Category should be between 2 and 100")
+    @Size(min = 2, max = 100, message = "Category should be between 2 and 100")
     private String categoryName;
 
     public CategoryDto() {

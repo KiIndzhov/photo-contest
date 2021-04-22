@@ -36,7 +36,7 @@ public class AuthenticationHelper {
 
     }
 
-    public User getUserByCredentials(Credential credential){
+    public User getUserByCredentials(Credential credential) {
         return userService.getUserByUsername(credential.getUsername());
     }
 }

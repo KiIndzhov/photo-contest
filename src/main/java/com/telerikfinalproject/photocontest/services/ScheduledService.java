@@ -55,7 +55,7 @@ public class ScheduledService {
         for (Photo photo : contest.getPhotoSet()) {
 
             addParticipationPointsToAllContestParticipants(contest, photo);
-            contestService.rankPhoto(firstPlacePhotos,secondPlacePhotos,thirdPlacePhotos,photo);
+            contestService.rankPhoto(firstPlacePhotos, secondPlacePhotos, thirdPlacePhotos, photo);
         }
     }
 

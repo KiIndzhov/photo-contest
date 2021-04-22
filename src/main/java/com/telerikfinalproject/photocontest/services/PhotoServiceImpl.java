@@ -89,6 +89,7 @@ public class PhotoServiceImpl implements PhotoService {
             }
         }
     }
+
     @Override
     public List<Photo> getAllWinnerPhotos() {
         return contestRepository.getFinishedContests().stream().map(Contest::getWinnerPhoto).collect(Collectors.toList());
@@ -99,14 +100,15 @@ public class PhotoServiceImpl implements PhotoService {
         List<Photo> getWinningPhotos = getAllWinnerPhotos();
         Random rand = new Random();
         List<Photo> randomPhotoList = new ArrayList<>();
-        if(getWinningPhotos.size() < amount){
+        if (getWinningPhotos.size() < amount) {
             amount = getWinningPhotos.size();
         }
-        while(randomPhotoList.size() < amount){
+        while (randomPhotoList.size() < amount) {
             Photo randomPhoto = getWinningPhotos.get(rand.nextInt(getWinningPhotos.size()));
-            if(randomPhotoList.contains(randomPhoto)){
-                continue;}
-            if(randomPhoto == null){
+            if (randomPhotoList.contains(randomPhoto)) {
+                continue;
+            }
+            if (randomPhoto == null) {
                 amount--;
                 continue;
             }
@@ -114,10 +116,12 @@ public class PhotoServiceImpl implements PhotoService {
         }
         return randomPhotoList;
     }
+
     @Override
     public boolean canUserSubmitPhoto(int userId, int contestId) {
         return contestRepository.canUserSubmitPhoto(userId, contestId);
     }
+
     @Override
     public boolean hasUserSubmitPhotoToContest(int userId, int contestId) {
         return contestRepository.hasUserSubmitPhotoToContest(userId, contestId);

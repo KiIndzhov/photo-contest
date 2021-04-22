@@ -51,13 +51,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public Review getReviewByJuryIdAndPhotoId(int juryId, int photoId){
-        try(Session session = sessionFactory.openSession()){
-            Query<Review> query = session.createQuery("FROM Review where user.id=:juryId and photo.id =:photoId",Review.class);
+    public Review getReviewByJuryIdAndPhotoId(int juryId, int photoId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Review> query = session.createQuery("FROM Review " +
+                    "where user.id=:juryId and photo.id =:photoId", Review.class);
             query.setParameter("juryId", juryId);
             query.setParameter("photoId", photoId);
             List<Review> result = query.getResultList();
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 throw new EntityNotFoundException("Review not found.");
             }
             return result.get(0);
@@ -66,11 +67,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<Review> getPhotoReviews(int id) {
-        try(Session session = sessionFactory.openSession()){
-            Query<Review> query = session.createQuery("FROM Review where photo.id=:id",Review.class);
-            query.setParameter("id",id);
+        try (Session session = sessionFactory.openSession()) {
+            Query<Review> query = session.createQuery("FROM Review where photo.id=:id", Review.class);
+            query.setParameter("id", id);
             List<Review> reviews = query.getResultList();
-            if(reviews.isEmpty()){
+            if (reviews.isEmpty()) {
                 throw new EntityNotFoundException("No Reviews for given picture");
             }
             return reviews;

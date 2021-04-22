@@ -13,7 +13,6 @@ public class UserUpdateDto {
     @Size(min = 2, max = 20, message = "Last name should be between 2 and 20 symbols")
     private String lastName;
 
-
     public UserUpdateDto() {
     }
 

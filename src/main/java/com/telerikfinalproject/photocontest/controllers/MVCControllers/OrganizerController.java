@@ -33,7 +33,12 @@ public class OrganizerController {
     private final UserModelMapper userModelMapper;
 
     @Autowired
-    public OrganizerController(ContestService contestService, ContestModelMapper contestModelMapper, ContestCategoryService contestCategoryService, CategoryModelMapper categoryModelMapper, UserService userService, UserModelMapper userModelMapper) {
+    public OrganizerController(ContestService contestService,
+                               ContestModelMapper contestModelMapper,
+                               ContestCategoryService contestCategoryService,
+                               CategoryModelMapper categoryModelMapper,
+                               UserService userService,
+                               UserModelMapper userModelMapper) {
         this.contestService = contestService;
         this.contestModelMapper = contestModelMapper;
         this.contestCategoryService = contestCategoryService;
@@ -44,7 +49,9 @@ public class OrganizerController {
 
     @GetMapping()
     public String showOrganiserHomepage(Model model, HttpSession session) {
-        List<ContestOutputDto> outputDtoList = contestService.getAllContests().stream().map(contestModelMapper::contestToDto).collect(Collectors.toList());
+        List<ContestOutputDto> outputDtoList = contestService.getAllContests().stream()
+                .map(contestModelMapper::contestToDto)
+                .collect(Collectors.toList());
         model.addAttribute("contests", outputDtoList);
         return "organiser";
     }
@@ -55,7 +62,9 @@ public class OrganizerController {
         if (contests == null) {
             return "redirect:/organiser/";
         }
-        List<ContestOutputDto> outputDtoList = contests.stream().map(contestModelMapper::contestToDto).collect(Collectors.toList());
+        List<ContestOutputDto> outputDtoList = contests.stream()
+                .map(contestModelMapper::contestToDto)
+                .collect(Collectors.toList());
         model.addAttribute("contests", outputDtoList);
         return "organiser";
 
@@ -64,7 +73,8 @@ public class OrganizerController {
     @GetMapping("/create")
     public String showCreateContestPage(Model model, HttpSession session) {
         List<ContestCategory> categories = contestCategoryService.getAllCategories();
-        List<JuryDto> possibleJury = userService.getAllJurors().stream().map(userModelMapper::userToJuryDto).collect(Collectors.toList());
+        List<JuryDto> possibleJury = userService.getAllJurors().stream()
+                .map(userModelMapper::userToJuryDto).collect(Collectors.toList());
         ContestCreateDto contestCreateDto = new ContestCreateDto();
         model.addAttribute("categories", categories);
         model.addAttribute("juries", possibleJury);
@@ -75,10 +85,15 @@ public class OrganizerController {
     }
 
     @PostMapping("/create")
-    public String createContest(@Valid @ModelAttribute("contestCreateDto") ContestCreateDto contestCreateDto, BindingResult errors, Model model, HttpSession session) {
+    public String createContest(@Valid @ModelAttribute("contestCreateDto") ContestCreateDto contestCreateDto,
+                                BindingResult errors,
+                                Model model,
+                                HttpSession session) {
         model.addAttribute("loggedUser", (UserOutputDto) session.getAttribute("user"));
         List<ContestCategory> categories = contestCategoryService.getAllCategories();
-        List<JuryDto> possibleJury = userService.getAllJurors().stream().map(userModelMapper::userToJuryDto).collect(Collectors.toList());
+        List<JuryDto> possibleJury = userService.getAllJurors().stream()
+                .map(userModelMapper::userToJuryDto)
+                .collect(Collectors.toList());
         int id;
         if (errors.hasErrors()) {
             model.addAttribute("categories", categories);
@@ -100,10 +115,10 @@ public class OrganizerController {
 
     @GetMapping("/users")
     public String getUsersView(Model model, HttpSession session) {
-        List<UserOutputDto> junkieList = userService.getAllJunkies().stream().
-                map(userModelMapper::userToDto).
-                sorted(Comparator.comparingInt(UserOutputDto::getScore).reversed()).
-                collect(Collectors.toList());
+        List<UserOutputDto> junkieList = userService.getAllJunkies().stream()
+                .map(userModelMapper::userToDto)
+                .sorted(Comparator.comparingInt(UserOutputDto::getScore).reversed())
+                .collect(Collectors.toList());
         model.addAttribute("junkies", junkieList);
 
         return "junkieListView";
@@ -118,7 +133,10 @@ public class OrganizerController {
     }
 
     @PostMapping("/category")
-    public String createCategory(@Valid @ModelAttribute("category") CategoryDto category, BindingResult errors, Model model, HttpSession session) {
+    public String createCategory(@Valid @ModelAttribute("category") CategoryDto category,
+                                 BindingResult errors,
+                                 Model model,
+                                 HttpSession session) {
         if (errors.hasErrors()) {
             return "createCategoryView";
         }
@@ -130,5 +148,4 @@ public class OrganizerController {
         }
         return "redirect:/organiser";
     }
-
 }

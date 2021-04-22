@@ -35,7 +35,7 @@ public class ContestController {
 
     }
 
-    @ApiOperation(value = CREATE_CONTEST , response = Contest.class)
+    @ApiOperation(value = CREATE_CONTEST, response = Contest.class)
     @PostMapping(consumes = {"multipart/form-data", "application/json"})
     public void createContest(@RequestPart("contestCreateDto") ContestCreateDto contestCreateDto,
                               @RequestParam("image") MultipartFile image) {
@@ -45,21 +45,21 @@ public class ContestController {
         contestService.create(contest);
     }
 
-    @ApiOperation(value = COVER_PHOTO_CONTEST , response = Resource.class)
+    @ApiOperation(value = COVER_PHOTO_CONTEST, response = Resource.class)
     @GetMapping(value = "/{id}/coverPhoto", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Resource getCoverPhotoByContestId(@PathVariable int id) {
         return contestService.getCoverPhotoByContestId(id);
 
     }
 
-    @ApiOperation(value = CONTEST_BY_ID , response = Contest.class)
+    @ApiOperation(value = CONTEST_BY_ID, response = Contest.class)
     @GetMapping("{id}")
     public ContestOutputDto getContestById(@PathVariable int id) {
         return contestModelMapper.contestToDto(contestService.getContestById(id));
 
     }
 
-    @ApiOperation(value = ALL_CONTESTS , response = List.class)
+    @ApiOperation(value = ALL_CONTESTS, response = List.class)
     @GetMapping
     public List<ContestOutputDto> getAllContests() {
         return contestService.getAllContests().stream()
@@ -68,24 +68,23 @@ public class ContestController {
 
     }
 
-    @ApiOperation(value = ADD_USER_TO_CONTEST , response = User.class)
+    @ApiOperation(value = ADD_USER_TO_CONTEST, response = User.class)
     @PutMapping("/{id}")
     public void addUserToContest(@PathVariable int id, @RequestParam int userId) {
         contestService.addUserToContest(id, userId);
-
     }
 
-    @ApiOperation(value = CONTEST_FILTERS , response = List.class)
+    @ApiOperation(value = CONTEST_FILTERS, response = List.class)
     @GetMapping("/filter")
-    public List<ContestOutputDto> contestFilter(@RequestParam String filter){
+    public List<ContestOutputDto> contestFilter(@RequestParam String filter) {
         return contestService.getFilteredContests(filter).stream()
                 .map(contestModelMapper::contestToDto)
                 .collect(Collectors.toList());
     }
 
-    @ApiOperation(value = CONTEST_FILTERS_BY_USER_ID , response = List.class)
+    @ApiOperation(value = CONTEST_FILTERS_BY_USER_ID, response = List.class)
     @GetMapping("/filter/{userId}")
-    public List<ContestOutputDto> contestFilterByUserId(@RequestParam String filter, @PathVariable int userId){
+    public List<ContestOutputDto> contestFilterByUserId(@RequestParam String filter, @PathVariable int userId) {
         return contestService.getFilteredContestsByUserId(filter, userId).stream()
                 .map(contestModelMapper::contestToDto)
                 .collect(Collectors.toList());
